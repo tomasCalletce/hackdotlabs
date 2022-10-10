@@ -1,48 +1,81 @@
 // SPDX-License-Identifier: MIT
-
 pragma solidity ^0.8.13;
 
-import './levels/Level.sol';
-import '@openzeppelin/contracts/access/Ownable.sol';
+import { Level } from './levels/Level.sol';
+import { Ownable } from '@openzeppelin/contracts/access/Ownable.sol';
+import { Pausable} from '@openzeppelin/contracts/security/Pausable.sol';
 
-contract Ethernaut is Ownable {
+/******************************************************************************\
+* HackLans ctf Medellin @
+*
+* good luck, and happy hacking.
+/******************************************************************************/
+
+struct EmittedInstanceData {
+    address player;
+    address level;
+    bool completed;
+    uint points;
+    uint timeBonus;
+}
+
+error levelNotRegistered(address _attempt);
+error alreadyCompleted();
+error notplayer(address _attempt);
+
+
+contract HackLab is Ownable, Pausable {
 
   event LevelInstanceCreatedLog(address indexed player, address instance);
-  event LevelCompletedLog(address indexed player, Level level);
+  event LevelCompletedLog(address indexed player,address level);
 
   mapping(address => bool) registeredLevels;
   mapping(address => EmittedInstanceData) emittedInstances;
-  mapping(address => uint) totalPointsPerPlayer;
+  mapping(address => uint) public totalPointsPerPlayer;
 
-  struct EmittedInstanceData {
-    address player;
-    Level level;
-    bool completed;
-    uint points;
-  }
+  address public winner;
 
-  function registerLevel(Level _level) public onlyOwner {
-    registeredLevels[address(_level)] = true;
-  }
-
-  function createLevelInstance(Level _level) public payable {
-    require(registeredLevels[address(_level)]);
-    (address instance,uint instancePoints) = _level.createInstanceANDgetPoints{value:msg.value}(msg.sender);
-    emittedInstances[instance] = EmittedInstanceData(msg.sender, _level, false,instancePoints);
-
-    emit LevelInstanceCreatedLog(msg.sender, instance);
-  }
-
-  function submitLevelInstance(address payable _instance) public {
-    EmittedInstanceData storage data = emittedInstances[_instance];
-    require(data.player == msg.sender); 
-    require(data.completed == false); 
-
-    if(data.level.validateInstance(_instance, msg.sender)) {
-      data.completed = true;
-      totalPointsPerPlayer[data.player] += data.points;
-      emit LevelCompletedLog(msg.sender, data.level);
+  function createLevelInstance(address _levelAddress) external payable {
+    Level _level = Level(_levelAddress);
+    if(!registeredLevels[_levelAddress]){
+        revert levelNotRegistered(_levelAddress);
     }
+    (address _instance,uint _points,uint _timeBonus) = _level.createInstance{value: msg.value}();
+    emittedInstances[_instance] = EmittedInstanceData(msg.sender,_levelAddress,false,_points,_timeBonus);
+
+    emit LevelInstanceCreatedLog(msg.sender, _instance);
+  }
+
+  function submitLevelInstance(address _instance) external whenNotPaused {
+    EmittedInstanceData storage _data = emittedInstances[_instance];
+    if(_data.player != msg.sender){
+      revert notplayer(msg.sender);
+    }
+    if(_data.completed){
+      revert alreadyCompleted();
+    }
+
+    Level _level = Level(_data.level);
+    if(_level.validateInstance(payable(_instance),msg.sender)){
+      uint _timeBonus;
+      if(_data.timeBonus > 0){
+          _timeBonus = _data.timeBonus; 
+          _data.timeBonus--;
+      }
+      _data.completed = true;
+      totalPointsPerPlayer[_data.player] += (_data.points + _timeBonus);
+      emit LevelCompletedLog(msg.sender,_data.level);
+    }
+  }
+
+  function applyForFirstPlace() external whenNotPaused {
+      if(totalPointsPerPlayer[msg.sender] > totalPointsPerPlayer[winner]){
+          winner = msg.sender;
+      }
+  }
+
+  function registerLevel(Level _level) external onlyOwner {
+    registeredLevels[address(_level)] = true;
   }
 
 }
