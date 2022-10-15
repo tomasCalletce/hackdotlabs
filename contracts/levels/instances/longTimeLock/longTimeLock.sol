@@ -2,18 +2,18 @@
 pragma solidity ^0.8.13;
 
 
-
+import { Facet } from "./facet.sol";
 
 
 contract LongTimeLockProxy {
 
     address public facet;
-    uint  waitTime;
     bool public unlocked;
+    uint public constant waitTime = 100;
+    
 
-    constructor(address _facet){
-        facet = _facet;
-        waitTime = 100 days;
+    constructor(){
+        facet = address(new Facet());
     }
 
     fallback() external payable {

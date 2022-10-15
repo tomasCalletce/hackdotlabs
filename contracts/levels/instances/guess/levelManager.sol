@@ -4,7 +4,7 @@ pragma solidity ^0.8.13;
 import { Guess } from "./guess.sol";
 
 
-contract GuessLevel  {
+contract GuessLevelManager  {
 
     uint public points;
     uint public timeBonus;

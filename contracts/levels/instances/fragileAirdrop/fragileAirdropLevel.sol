@@ -13,11 +13,7 @@ contract QuestionableAirdrop {
     mapping (address => uint256) private userBalances;
     mapping (address => bool) private receivedAirdrops;
 
-    uint256 public immutable airdropAmount;
-
-    constructor(uint256 _airdropAmount) {
-        airdropAmount = _airdropAmount;
-    }
+    uint public constant airdropAmount = 100;
 
     function receiveAirdrop(address _player) external neverReceiveAirdrop(_player) canReceiveAirdrop(_player) {
         userBalances[_player] += airdropAmount;

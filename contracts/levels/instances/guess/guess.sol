@@ -6,7 +6,7 @@ error notcalledDirectly();
 error alreadyFoundNum();
 
 
-contract Guess  {
+contract Guess {
 
     bool public foundTheSecret;
 

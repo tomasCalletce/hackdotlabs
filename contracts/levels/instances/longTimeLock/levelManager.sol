@@ -6,7 +6,7 @@ import { LongTimeLockProxy } from "./longTimeLock.sol";
 import { Facet } from "./facet.sol";
 
 
-contract LongTimeLockLevel  {
+contract LongTimeLockLevelManager  {
 
     uint public points;
     uint public timeBonus;
@@ -19,7 +19,7 @@ contract LongTimeLockLevel  {
     }
 
     function createInstance() virtual public payable returns (address _instance,uint _points,uint _timeBonus){
-        LongTimeLockProxy _ins = new LongTimeLockProxy(address(facet));
+        LongTimeLockProxy _ins = new LongTimeLockProxy();
         return (address(_ins),points,timeBonus);
     }
     function validateInstance(address payable _instance, address _player) virtual public returns (bool){

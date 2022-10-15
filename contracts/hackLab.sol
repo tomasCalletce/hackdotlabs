@@ -6,7 +6,7 @@ import { Ownable } from '@openzeppelin/contracts/access/Ownable.sol';
 import { Pausable} from '@openzeppelin/contracts/security/Pausable.sol';
 
 /******************************************************************************\
-* HackLans ctf Medellin @
+* HackLans ctf Medellin 
 *
 * good luck, and happy hacking.
 /******************************************************************************/
@@ -74,8 +74,8 @@ contract HackLab is Ownable, Pausable {
       }
   }
 
-  function registerLevel(Level _level) external onlyOwner {
-    registeredLevels[address(_level)] = true;
+  function registerLevel(address _level) external onlyOwner {
+    registeredLevels[_level] = true;
   }
 
 }
