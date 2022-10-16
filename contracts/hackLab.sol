@@ -56,7 +56,7 @@ contract HackLab is Ownable, Pausable {
     }
 
     Level _level = Level(_data.level);
-    if(_level.validateInstance(payable(_instance),msg.sender)){
+    if(_level.validateInstance(_instance)){
       uint _timeBonus;
       if(_data.timeBonus > 0){
           _timeBonus = _data.timeBonus; 

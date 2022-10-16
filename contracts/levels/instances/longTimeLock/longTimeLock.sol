@@ -8,11 +8,14 @@ import { Facet } from "./facet.sol";
 contract LongTimeLockProxy {
 
     address public facet;
+    uint public timePassed;
+    uint public startOfCount;
     bool public unlocked;
-    uint public constant waitTime = 100;
-    
+    uint public constant waitTime = 100 days;
+
 
     constructor(){
+        startOfCount = block.timestamp;
         facet = address(new Facet());
     }
 

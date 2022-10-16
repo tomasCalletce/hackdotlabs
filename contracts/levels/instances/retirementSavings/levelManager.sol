@@ -2,10 +2,10 @@
 pragma solidity ^0.8.13;
 
 
-import { QuestionableAirdrop } from "./fragileAirdropLevel.sol";
+import { RetirementSavings } from "./retirementSavings.sol";
 
 
-contract FragileAirdropLevelManager  {
+contract retirementSavingsLevelManager  {
 
     uint public points;
     uint public timeBonus;
@@ -16,16 +16,14 @@ contract FragileAirdropLevelManager  {
     }
 
     function createInstance() virtual public payable returns (address _instance,uint _points,uint _timeBonus){
-        QuestionableAirdrop _ins = new QuestionableAirdrop();
+        RetirementSavings _ins = new RetirementSavings();
         return (address(_ins),points,timeBonus);
     }
-    function validateInstance(address payable _instance) virtual public returns (bool){
-        QuestionableAirdrop _ins = QuestionableAirdrop(_instance);
-        if(_ins.getUserBalance(tx.origin) > _ins.airdropAmount()){
+    function validateInstance(address _instance) virtual public returns (bool){
+       if(_instance.balance == 0){
             return true;
-        }
-        return false;
+       }
+       return false;
     }
   
 }
-

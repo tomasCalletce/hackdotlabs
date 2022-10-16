@@ -2,10 +2,10 @@
 pragma solidity ^0.8.13;
 
 
-import { DontWantMoney } from "./dontWantMoney.sol";
+import { StoreMyPrivateData } from "./storeMyPrivateData.sol";
 
 
-contract IdontWantMoneyLevelManager  {
+contract retirementSavingsLevelManager  {
 
     uint public points;
     uint public timeBonus;
@@ -16,14 +16,12 @@ contract IdontWantMoneyLevelManager  {
     }
 
     function createInstance() virtual public payable returns (address _instance,uint _points,uint _timeBonus){
-        DontWantMoney _ins = new DontWantMoney();
+        StoreMyPrivateData _ins = new StoreMyPrivateData();
         return (address(_ins),points,timeBonus);
     }
-    function validateInstance(address payable _instance,address _player) virtual public returns (bool){
-       if(_instance.balance > 0){
-            return true;
-       }
-       return false;
+    function validateInstance(address _instance) virtual public returns (bool){
+        StoreMyPrivateData _ins = StoreMyPrivateData(_instance);
+        return _ins.foundTheSecret();
     }
   
 }

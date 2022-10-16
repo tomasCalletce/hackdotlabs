@@ -7,17 +7,18 @@ error  tooEarly(uint timeLeft);
 
 contract Facet {
 
-    uint helper;
-    uint waitTime;
-    bool unlocked;
+    uint public timePassed;
+    address public facet;
+    uint public startOfCount;
+    bool public unlocked;
+    uint public constant waitTime = 100;
 
-    function setHelper(uint _helper) external {
-        helper = _helper;
+    function updateTime() external {
+        timePassed = block.timestamp - startOfCount;
     }
 
-
     function unlock() external {
-        if(block.timestamp < block.timestamp + waitTime){
+        if(timePassed >= 100 days){
             revert tooEarly(waitTime);
         }
         unlocked = true;

@@ -22,7 +22,7 @@ contract LongTimeLockLevelManager  {
         LongTimeLockProxy _ins = new LongTimeLockProxy();
         return (address(_ins),points,timeBonus);
     }
-    function validateInstance(address payable _instance, address _player) virtual public returns (bool){
+    function validateInstance(address payable _instance) virtual public returns (bool){
        LongTimeLockProxy _ins = LongTimeLockProxy(_instance);
        return _ins.unlocked();
     }
