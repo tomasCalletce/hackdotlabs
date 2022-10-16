@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
-
-contract StoreMyPrivateData {
+// recover the keys
+contract UnderstandStorage {
 
     mapping(uint => uint) dataBase;
     bool public foundTheSecret;
@@ -16,7 +16,6 @@ contract StoreMyPrivateData {
             mstore(add(freeMP,0x20),0x00)
             sstore(keccak256(freeMP,0x40),_val)
         }
-
         initialized = true;
     }
 

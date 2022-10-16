@@ -2,10 +2,10 @@
 pragma solidity ^0.8.13;
 
 
-import { StoreMyPrivateData } from "./storeMyPrivateData.sol";
+import { UnderstandStorage } from "./understandStorage.sol";
 
 
-contract retirementSavingsLevelManager  {
+contract UnderstandStorageLevelManager  {
 
     uint public points;
     uint public timeBonus;
@@ -16,11 +16,11 @@ contract retirementSavingsLevelManager  {
     }
 
     function createInstance() virtual public payable returns (address _instance,uint _points,uint _timeBonus){
-        StoreMyPrivateData _ins = new StoreMyPrivateData();
+        UnderstandStorage _ins = new UnderstandStorage();
         return (address(_ins),points,timeBonus);
     }
     function validateInstance(address _instance) virtual public returns (bool){
-        StoreMyPrivateData _ins = StoreMyPrivateData(_instance);
+        UnderstandStorage _ins = UnderstandStorage(_instance);
         return _ins.foundTheSecret();
     }
   

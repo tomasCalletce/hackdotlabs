@@ -7,22 +7,19 @@ error  tooEarly(uint timeLeft);
 
 contract Facet {
 
-    uint public timePassed;
-    address public facet;
-    uint public startOfCount;
+    uint public timeZone;
     bool public unlocked;
-    uint public constant waitTime = 100;
-
-    function updateTime() external {
-        timePassed = block.timestamp - startOfCount;
+    uint public constant waitTime = 100 days;
+  
+    function setTimeZone(uint _timeZone) external {
+        timeZone = _timeZone;
     }
 
     function unlock() external {
-        if(timePassed >= 100 days){
+        if(block.timestamp < block.timestamp + waitTime){
             revert tooEarly(waitTime);
         }
         unlocked = true;
     }
-
 
 }
