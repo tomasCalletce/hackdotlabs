@@ -1,6 +1,6 @@
-# Sample Hardhat Project
+# Hack.Labs() web3 security competition
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+Let the best man win :) ETH Medellin
 
 Try running some of the following tasks:
 
