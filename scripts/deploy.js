@@ -10,6 +10,8 @@ async function main() {
   const hackLab = await HackLab.connect(owner).deploy();
   await hackLab.deployed();
 
+  console.log("--HackLabs--")
+  console.log(hackLab.address)
 
   console.log("--LevelManagers--")
   const managers = await deployLevelManagers(owner,contractLevelNames)
@@ -18,8 +20,8 @@ async function main() {
     console.log(await hackLab.registeredLevels(manager.address),manager.address)
   }
 
-  console.log("--levelInstances--")
-  const levelInstancesTransactions = await deployLevelInstance(player,hackLab,managers)
+  // console.log("--levelInstances--")
+  // const levelInstancesTransactions = await deployLevelInstance(player,hackLab,managers)
   
 
 }
@@ -37,7 +39,7 @@ async function deployLevelInstance(player,hackLab,managers){
     if(tt == 4){
       const instanceAddressTrans = await hackLab.connect(player).createLevelInstance(managers[tt].address,{ value: hre.ethers.utils.parseEther(".1") })
       listOfInstanceAddress.push(instanceAddressTrans)
-      
+
       await instanceAddressTrans.wait();
       hackLab.on("LevelInstanceCreatedLog", (setter,address, event)=> {
       console.log("LevelInstanceCreatedLog is ", address);
