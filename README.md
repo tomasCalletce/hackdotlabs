@@ -1,6 +1,6 @@
 # Hack.Labs() web3 security competition
 
-## Let the best man win :) ETH Medellin
+# Let the best man win :) ETH Medellin
 
 Try running some of the following tasks:
 
