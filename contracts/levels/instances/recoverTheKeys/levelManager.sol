@@ -2,10 +2,10 @@
 pragma solidity ^0.8.13;
 
 
-import { UnderstandStorage } from "./understandStorage.sol";
+import { RecoverTheKeys } from "./recoverTheKeys.sol";
 
 
-contract UnderstandStorageLevelManager  {
+contract RecoverTheKeysLevelManager  {
 
     uint public points;
     uint public timeBonus;
@@ -16,11 +16,11 @@ contract UnderstandStorageLevelManager  {
     }
 
     function createInstance() virtual public payable returns (address _instance,uint _points,uint _timeBonus){
-        UnderstandStorage _ins = new UnderstandStorage();
+        RecoverTheKeys _ins = new RecoverTheKeys();
         return (address(_ins),points,timeBonus);
     }
     function validateInstance(address _instance) virtual public returns (bool){
-        UnderstandStorage _ins = UnderstandStorage(_instance);
+        RecoverTheKeys _ins = RecoverTheKeys(_instance);
         return _ins.foundTheSecret();
     }
   

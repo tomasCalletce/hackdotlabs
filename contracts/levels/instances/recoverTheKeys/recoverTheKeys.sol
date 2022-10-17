@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 // recover the keys
-contract UnderstandStorage {
+contract RecoverTheKeys {
 
     mapping(uint => uint) dataBase;
     bool public foundTheSecret;

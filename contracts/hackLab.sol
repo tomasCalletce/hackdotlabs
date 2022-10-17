@@ -29,8 +29,8 @@ contract HackLab is Ownable, Pausable {
   event LevelInstanceCreatedLog(address indexed player, address instance);
   event LevelCompletedLog(address indexed player,address level);
 
-  mapping(address => bool) registeredLevels;
-  mapping(address => EmittedInstanceData) emittedInstances;
+  mapping(address => bool) public registeredLevels;
+  mapping(address => EmittedInstanceData) public emittedInstances;
   mapping(address => uint) public totalPointsPerPlayer;
 
   address public winner;

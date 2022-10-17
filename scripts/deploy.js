@@ -1,55 +1,65 @@
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through `node <script>`.
-//
-// You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
-// will compile your contracts, add the Hardhat Runtime Environment's members to the
-// global scope, and execute the script.
 const { ethers } = require("hardhat");
 const hre = require("hardhat");
 
 async function main() {
 
   const [owner,player] = await ethers.getSigners()
+  const contractLevelNames = ["FragileAirdropLevelManager","GuessLevelManager","LongTimeLockLevelManager","RecoverTheKeysLevelManager","retirementSavingsLevelManager"]
 
   const HackLab = await hre.ethers.getContractFactory("HackLab");
   const hackLab = await HackLab.connect(owner).deploy();
   await hackLab.deployed();
 
+
   console.log("--LevelManagers--")
-  const managers = await deployLevelManagers(owner)
+  const managers = await deployLevelManagers(owner,contractLevelNames)
+  await registerLevels(owner,hackLab,managers)
   for (const manager of managers) {
-    console.log(manager.address);
-    await hackLab.connect(owner).registerLevel(manager.address);
+    console.log(await hackLab.registeredLevels(manager.address),manager.address)
   }
 
   console.log("--levelInstances--")
-  const levelInstances = await deployLevelInstance(player)
-  for (const levelInstance of levelInstances) {
-    console.log(levelInstance.address);
-  }
-
+  const levelInstancesTransactions = await deployLevelInstance(player,hackLab,managers)
+  
 
 }
 
-async function deployLevelInstance(player){
+async function registerLevels(owner,hackLab,managers){
+    for (const manager of managers) {
+        await hackLab.connect(owner).registerLevel(manager.address)
+    }
+}
 
-  const contractNames = ["DontWantMoney","QuestionableAirdrop","Guess","LongTimeLockProxy"]
-  const contractOBJs = []
-  for (const contractName of contractNames) {
-    const LevelInstance = await hre.ethers.getContractFactory(contractName);
-    const levelInstance = await LevelInstance.connect(player).deploy();
-    await levelInstance.deployed();
-    contractOBJs.push(levelInstance);
-    console.log(levelInstance.address)
+async function deployLevelInstance(player,hackLab,managers){
+
+  const listOfInstanceAddress = []
+  for(let tt = 0; tt < managers.length;tt++){
+    if(tt == 4){
+      const instanceAddressTrans = await hackLab.connect(player).createLevelInstance(managers[tt].address,{ value: hre.ethers.utils.parseEther(".1") })
+      listOfInstanceAddress.push(instanceAddressTrans)
+      
+      await instanceAddressTrans.wait();
+      hackLab.on("LevelInstanceCreatedLog", (setter,address, event)=> {
+      console.log("LevelInstanceCreatedLog is ", address);
+      })
+      continue;
+    }
+    const instanceAddressTrans = await hackLab.connect(player).createLevelInstance(managers[tt].address)
+    listOfInstanceAddress.push(instanceAddressTrans)
+
+    await instanceAddressTrans.wait();
+    hackLab.on("LevelInstanceCreatedLog", (setter,address, event)=> {
+      console.log("LevelInstanceCreatedLog is ", address);
+    })
+
   }
-
-  return contractOBJs;
+  
+  return listOfInstanceAddress;
 
 }
 
-async function deployLevelManagers(owner){
+async function deployLevelManagers(owner,contractNames){
 
-  const contractNames = ["IdontWantMoneyLevelManager","FragileAirdropLevelManager","GuessLevelManager","LongTimeLockLevelManager"]
   const contractOBJs = []
   for (const contractName of contractNames) {
     const Manager = await hre.ethers.getContractFactory(contractName);
