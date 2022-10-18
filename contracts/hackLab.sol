@@ -47,9 +47,11 @@ contract HackLab is Ownable, Pausable {
           revert levelNotRegistered(_levelAddress);
       }
       (address _instance,uint _points,uint _timeBonus) = _level.createInstance{value: msg.value}();
-      EmittedLevel storage _dataLevel = registeredLevels[_levelAddress];
-      _dataLevel.points = _points;
-      _dataLevel.timeBonus = _timeBonus;
+      if(registeredLevels[_levelAddress].points == 0){
+            EmittedLevel storage _dataLevel = registeredLevels[_levelAddress];
+          _dataLevel.points = _points;
+          _dataLevel.timeBonus = _timeBonus;
+      }
       emittedInstances[_instance] = EmittedInstanceData(msg.sender,_levelAddress,false);
 
       emit LevelInstanceCreatedLog(msg.sender, _instance);

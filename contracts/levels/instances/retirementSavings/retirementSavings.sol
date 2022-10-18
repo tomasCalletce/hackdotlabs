@@ -27,8 +27,8 @@ contract RetirementSavings {
     }
 
     function collectPenalty() external {
-        uint256 withdrawn = startBalance - address(this).balance;
-        require(withdrawn < 0);
+        uint256 withdrawn = address(this).balance - startBalance;
+        require(withdrawn > 0);
         payable(msg.sender).transfer(address(this).balance);
     }
 }

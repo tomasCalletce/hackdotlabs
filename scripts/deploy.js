@@ -17,7 +17,8 @@ async function main() {
   const managers = await deployLevelManagers(owner,contractLevelNames)
   await registerLevels(owner,hackLab,managers)
   for (const manager of managers) {
-    console.log(await hackLab.registeredLevels(manager.address),manager.address)
+    await hackLab.registeredLevels(manager.address)
+    console.log(manager.address)
   }
 
   // console.log("--levelInstances--")
