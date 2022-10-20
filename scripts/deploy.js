@@ -23,7 +23,6 @@ async function main() {
 
   // console.log("--levelInstances--")
   // const levelInstancesTransactions = await deployLevelInstance(player,hackLab,managers)
-  
 
 }
 

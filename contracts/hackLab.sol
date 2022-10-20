@@ -112,5 +112,4 @@ contract HardDeployer {
         hl.submitLevelInstance(_ins);
     }
 
-
 }

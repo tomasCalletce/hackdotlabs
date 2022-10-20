@@ -25,7 +25,7 @@ contract Guess {
 
 }
 
-contract Attack {
+contract AttackGuess {
 
     constructor(address _target){
         Guess _ins = Guess(_target);
