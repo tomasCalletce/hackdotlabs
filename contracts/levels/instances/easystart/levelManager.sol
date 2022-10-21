@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 
-import { EasyStart } from "./easyStart.sol";
+import { EasyStart } from "./easystart.sol";
 
 
 contract EasystartLevelManager  {

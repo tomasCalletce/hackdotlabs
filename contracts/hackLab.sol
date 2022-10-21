@@ -99,20 +99,22 @@ contract HackLab is Ownable, Pausable {
 
 contract HardDeployer {
 
+    HackLab hl;
+    constructor(address _hacklabs){
+      hl = HackLab(_hacklabs);
+    }
+
     address public created;
 
-    function createInstance(address _ins,address _hacklabs) external payable {
-        HackLab hl = HackLab(_hacklabs);
+    function createInstance(address _ins) external payable {
         created = hl.createLevelInstance{value: msg.value}(_ins);
     }
 
-    function submitLevelInstance(address _ins,address _hacklabs) external {
-       HackLab hl = HackLab(_hacklabs);
+    function submitLevelInstance(address _ins) external {
        hl.submitLevelInstance(_ins);
     }
 
-    function applyForFirstPlace(address _hacklabs) external {
-        HackLab hl = HackLab(_hacklabs);
+    function applyForFirstPlace() external {
         hl.applyForFirstPlace();
     }
 
