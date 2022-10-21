@@ -60,7 +60,6 @@ contract HackLab is Ownable, Pausable {
 
   function submitLevelInstance(address _instance) external whenNotPaused {
       EmittedInstanceData storage _dataInstance = emittedInstances[_instance];
-      EmittedLevel storage _dataLevel = registeredLevels[_dataInstance.level];
       if(_dataInstance.player != msg.sender){
         revert notplayer(msg.sender);
       }
@@ -70,7 +69,7 @@ contract HackLab is Ownable, Pausable {
       if(conqueredLevels[_dataInstance.player][_dataInstance.level]){
         revert levelAlreadyConquered(_dataInstance.level);
       }
-
+      EmittedLevel storage _dataLevel = registeredLevels[_dataInstance.level];
       Level _level = Level(_dataInstance.level);
       if(_level.validateInstance(_instance)){
         uint _timeBonus;
@@ -109,7 +108,12 @@ contract HardDeployer {
 
     function submitLevelInstance(address _ins,address _hacklabs) external {
        HackLab hl = HackLab(_hacklabs);
-        hl.submitLevelInstance(_ins);
+       hl.submitLevelInstance(_ins);
+    }
+
+    function applyForFirstPlace(address _hacklabs) external {
+        HackLab hl = HackLab(_hacklabs);
+        hl.applyForFirstPlace();
     }
 
 }

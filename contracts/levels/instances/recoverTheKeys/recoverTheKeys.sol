@@ -26,3 +26,20 @@ contract RecoverTheKeys {
     }
 
 }
+
+
+contract AttackRecoverTheKeys {
+
+    function attack(address _target) external {
+        RecoverTheKeys _ins = RecoverTheKeys(_target);
+        _ins.setData(88);
+        uint _loc;
+         assembly {
+            mstore(0x00,88)
+            mstore(0x20,keccak256(0x00,0x20))
+            _loc := mload(0x20)
+        }
+        _ins.win(_loc);
+    }
+
+}

