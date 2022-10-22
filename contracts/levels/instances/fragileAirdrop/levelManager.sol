@@ -19,9 +19,9 @@ contract FragileAirdropLevelManager  {
         QuestionableAirdrop _ins = new QuestionableAirdrop();
         return (address(_ins),points,timeBonus);
     }
-    function validateInstance(address payable _instance) virtual public returns (bool){
+    function validateInstance(address payable _instance,address _player) virtual public returns (bool){
         QuestionableAirdrop _ins = QuestionableAirdrop(_instance);
-        if(_ins.getUserBalance(tx.origin) > _ins.airdropAmount()){
+        if(_ins.getUserBalance(_player) == 300){
             return true;
         }
         return false;

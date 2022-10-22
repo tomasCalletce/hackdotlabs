@@ -19,7 +19,7 @@ contract EasystartLevelManager  {
         EasyStart _ins = new EasyStart();
         return (address(_ins),points,timeBonus);
     }
-    function validateInstance(address payable _instance) virtual public returns (bool){
+    function validateInstance(address payable _instance,address _player) virtual public returns (bool){
         EasyStart _ins = EasyStart(_instance);
         if(_ins.solved()){
             return true;

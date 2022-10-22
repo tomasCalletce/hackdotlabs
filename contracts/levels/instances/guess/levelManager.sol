@@ -19,7 +19,7 @@ contract GuessLevelManager  {
         return (address(_ins),points,timeBonus);
     }
 
-    function validateInstance(address _instance) virtual public returns (bool){
+    function validateInstance(address _instance,address _player) virtual public returns (bool){
         Guess _ins = Guess(_instance);
        return _ins.foundTheSecret();
     }

@@ -10,9 +10,9 @@ contract RetirementSavings {
     address owner;
 
     constructor() payable {
-        require(msg.value == .1 ether);
+        require(msg.value == .001 ether);
         expiration = block.timestamp + 100 days;
-        startBalance = .1 ether;
+        startBalance = .001 ether;
         owner = 0xE7351d0B85f4D88dED9c39C71D1685820680ca8A;
     }
 

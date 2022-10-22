@@ -19,7 +19,7 @@ contract retirementSavingsLevelManager  {
         RetirementSavings _ins = new RetirementSavings{value: msg.value}();
         return (address(_ins),points,timeBonus);
     }
-    function validateInstance(address _instance) virtual public returns (bool){
+    function validateInstance(address _instance,address _player) virtual public returns (bool){
        if(_instance.balance == 0){
             return true;
        }

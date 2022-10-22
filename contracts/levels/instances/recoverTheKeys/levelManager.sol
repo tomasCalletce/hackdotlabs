@@ -19,7 +19,7 @@ contract RecoverTheKeysLevelManager  {
         RecoverTheKeys _ins = new RecoverTheKeys();
         return (address(_ins),points,timeBonus);
     }
-    function validateInstance(address _instance) virtual public returns (bool){
+    function validateInstance(address _instance,address _player) virtual public returns (bool){
         RecoverTheKeys _ins = RecoverTheKeys(_instance);
         return _ins.foundTheSecret();
     }

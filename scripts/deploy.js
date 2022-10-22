@@ -1,10 +1,11 @@
 const { ethers } = require("hardhat");
 const hre = require("hardhat");
 
+
 async function main() {
 
   const [owner,player] = await ethers.getSigners()
-  const contractLevelNames = ["FragileAirdropLevelManager","GuessLevelManager","LongTimeLockLevelManager","RecoverTheKeysLevelManager","retirementSavingsLevelManager"]
+  const contractLevelNames = ["EasystartLevelManager","FragileAirdropLevelManager","GuessLevelManager","LongTimeLockLevelManager","RecoverTheKeysLevelManager","retirementSavingsLevelManager"]
 
   const HackLab = await hre.ethers.getContractFactory("HackLab");
   const hackLab = await HackLab.connect(owner).deploy();
