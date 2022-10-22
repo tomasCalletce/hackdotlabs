@@ -91,7 +91,11 @@ contract HackLab is Ownable, Pausable {
   }
 
   function registerLevel(address _level) external onlyOwner {
-    registeredLevels[_level].registered = true;
+      registeredLevels[_level].registered = true;
+  }
+
+  function pauseHackLabs() external onlyOwner {
+      _pause();
   }
 
 }
