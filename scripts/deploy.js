@@ -7,7 +7,7 @@ async function main() {
   const [owner,player] = await ethers.getSigners()
   const contractLevelNames = ["EasystartLevelManager","FragileAirdropLevelManager","GuessLevelManager","LongTimeLockLevelManager","RecoverTheKeysLevelManager","retirementSavingsLevelManager"]
 
-  const HackLab = await hre.ethers.getContractFactory("HackLab");
+  const HackLab = await hre.ethers.getContractFactory("HackLabManager");
   const hackLab = await HackLab.connect(owner).deploy();
   await hackLab.deployed();
 

@@ -29,7 +29,7 @@ error notplayer(address _attempt);
 error levelAlreadyConquered(address _level);
 
 
-contract HackLab is Ownable, Pausable {
+contract HackLabManager is Ownable, Pausable {
 
   event LevelInstanceCreatedLog(address indexed player, address instance);
   event LevelCompletedLog(address indexed player,address level);
@@ -103,9 +103,9 @@ contract HackLab is Ownable, Pausable {
 
 contract Deployer {
 
-    HackLab hl;
+    HackLabManager hl;
     constructor(address _hacklabs){
-      hl = HackLab(_hacklabs);
+      hl = HackLabManager(_hacklabs);
     }
 
     address public created;
